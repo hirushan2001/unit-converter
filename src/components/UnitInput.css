@@ -1,0 +1,53 @@
+/* src/components/UnitInput.css */
+
+.unit-input-container {
+    display: flex;
+    margin-bottom: 15px;
+  }
+  
+  .unit-input-container input[type="number"] {
+    flex: 2;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .unit-input-container input[type="number"]:focus {
+    border-color: #007bff;
+  }
+  
+  .unit-input-container select {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    background-color: #f8f8f8;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .unit-input-container select:hover {
+    background-color: #e8e8e8;
+  }
+  
+  .unit-input-container input[type="number"]:read-only {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+  }
+  
+  /* Remove spinner buttons from number input */
+  .unit-input-container input[type="number"]::-webkit-inner-spin-button,
+  .unit-input-container input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .unit-input-container input[type="number"] {
+    -moz-appearance: textfield;
+  }

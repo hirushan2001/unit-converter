@@ -1,23 +1,32 @@
 // src/components/UnitInput.js
 import React from 'react';
+import { Input, Select, Space } from 'antd';
 
-const UnitInput = ({ value, onValueChange, unit, onUnitChange, unitOptions, readOnly }) => {
+const { Option } = Select;
+
+const UnitInput = ({ label, value, onValueChange, unit, onUnitChange, unitOptions, readOnly }) => {
   return (
-    <div>
-      <input 
-        type="number" 
-        value={value} 
-        onChange={onValueChange} 
+    <Space direction="vertical" style={{ width: '100%' }}>
+      <Input
+        addonBefore={label}
+        type="number"
+        value={value}
+        onChange={(e) => onValueChange(e.target.value)}
         readOnly={readOnly}
       />
-      <select value={unit} onChange={onUnitChange}>
-        {unitOptions.map((unitOption) => (
-          <option key={unitOption} value={unitOption}>
-            {unitOption}
-          </option>
+      <Select
+        style={{ width: '100%' }}
+        value={unit}
+        onChange={onUnitChange}
+        placeholder="Select unit"
+      >
+        {unitOptions.map((option) => (
+          <Option key={option} value={option}>
+            {option}
+          </Option>
         ))}
-      </select>
-    </div>
+      </Select>
+    </Space>
   );
 };
 
