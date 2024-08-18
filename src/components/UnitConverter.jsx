@@ -1,13 +1,13 @@
 // src/components/UnitConverter.js
 import React, { useState } from 'react';
-import { Layout, Typography, Tabs, Card, Row, Col } from 'antd';
+import { Layout, Typography, Tabs, Card, Row, Col, Button, Select, Input } from 'antd';
 import { SwapOutlined } from '@ant-design/icons';
-import UnitInput from './UnitInput';
 import './unitconvertor.css';
 
 const { Content } = Layout;
 const { Title } = Typography;
 const { TabPane } = Tabs;
+const { Option } = Select;
 
 const unitTypes = {
   Length: ['Meter', 'Kilometer', 'Centimeter', 'Millimeter', 'Mile', 'Yard', 'Foot', 'Inch'],
@@ -22,52 +22,83 @@ const UnitConverter = () => {
   const [fromUnit, setFromUnit] = useState('');
   const [toUnit, setToUnit] = useState('');
   const [fromValue, setFromValue] = useState('');
+  const [toValue, setToValue] = useState('');
 
   const handleTabChange = (newTab) => {
     setActiveTab(newTab);
     setFromUnit('');
     setToUnit('');
     setFromValue('');
+    setToValue('');
+  };
+
+  const handleCalculate = () => {
+    // Placeholder conversion function
+    const convertedValue = parseFloat(fromValue) * 2;
+    setToValue(convertedValue.toFixed(2));
+  };
+
+  const handleSwap = () => {
+    setFromUnit(toUnit);
+    setToUnit(fromUnit);
+    setFromValue(toValue);
+    setToValue(fromValue);
   };
 
   return (
-    <Layout>
-      <Content style={{ padding: '50px', maxWidth: '800px', margin: '0 auto' }}>
-        <Title level={2} style={{ textAlign: 'center', marginBottom: '30px' }}>
-          Unit Converter
-        </Title>
-        <Card>
+    <Layout className="unit-converter-layout">
+      <Content className="unit-converter-content">
+        <Card className="converter-card">
+          <Title level={2} className="converter-title">Unit Converter</Title>
           <Tabs activeKey={activeTab} onChange={handleTabChange}>
             {Object.keys(unitTypes).map((type) => (
               <TabPane tab={type} key={type} />
             ))}
           </Tabs>
-          <Row gutter={16} align="middle">
-            <Col xs={24} sm={11}>
-              <UnitInput
-                label="From"
+          <div className="converter-inputs">
+            <div className="input-group">
+              <label>From</label>
+              <Input
                 value={fromValue}
-                onValueChange={(value) => setFromValue(value)}
-                unit={fromUnit}
-                onUnitChange={(value) => setFromUnit(value)}
-                unitOptions={unitTypes[activeTab]}
+                onChange={(e) => setFromValue(e.target.value)}
+                placeholder="Enter value"
               />
-            </Col>
-            <Col xs={24} sm={2} style={{ textAlign: 'center' }}>
-              <SwapOutlined style={{ fontSize: '24px' }} />
-            </Col>
-            <Col xs={24} sm={11}>
-              <UnitInput
-                label="To"
-                value=""
-                onValueChange={() => {}}
-                unit={toUnit}
-                onUnitChange={(value) => setToUnit(value)}
-                unitOptions={unitTypes[activeTab]}
+              <Select
+                value={fromUnit}
+                onChange={(value) => setFromUnit(value)}
+                placeholder="Select unit"
+              >
+                {unitTypes[activeTab].map((unit) => (
+                  <Option key={unit} value={unit}>{unit}</Option>
+                ))}
+              </Select>
+            </div>
+            <Button 
+              icon={<SwapOutlined />} 
+              onClick={handleSwap}
+              className="swap-button"
+            />
+            <div className="input-group">
+              <label>To</label>
+              <Input
+                value={toValue}
                 readOnly
+                placeholder="Converted value"
               />
-            </Col>
-          </Row>
+              <Select
+                value={toUnit}
+                onChange={(value) => setToUnit(value)}
+                placeholder="Select unit"
+              >
+                {unitTypes[activeTab].map((unit) => (
+                  <Option key={unit} value={unit}>{unit}</Option>
+                ))}
+              </Select>
+            </div>
+          </div>
+          <Button type="primary" onClick={handleCalculate} className="calculate-button">
+            Calculate
+          </Button>
         </Card>
       </Content>
     </Layout>
